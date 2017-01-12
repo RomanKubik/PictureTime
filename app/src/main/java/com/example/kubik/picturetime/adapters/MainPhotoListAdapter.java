@@ -18,6 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
+ * Helps display pictures in recycler view using cards
  * Created by Kubik on 1/12/17.
  */
 
@@ -26,6 +27,15 @@ public class MainPhotoListAdapter extends RecyclerView.Adapter<MainPhotoListAdap
     private List<PhotoDetails> mPhotoList;
     private Context mContext;
 
+    private OnItemClickListener onItemClickListener;
+
+    public interface OnItemClickListener {
+        void onItemClicked(View view, int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
 
     public MainPhotoListAdapter(Context context, List<PhotoDetails> photoList) {
         this.mContext = context;
@@ -66,7 +76,7 @@ public class MainPhotoListAdapter extends RecyclerView.Adapter<MainPhotoListAdap
         return mPhotoList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.iv_item_main_list)
         ImageView ivPhoto;
@@ -79,7 +89,15 @@ public class MainPhotoListAdapter extends RecyclerView.Adapter<MainPhotoListAdap
             super(itemView);
             ButterKnife.bind(this, itemView);
 
+            itemView.setOnClickListener(this);
 
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClicked(view, getAdapterPosition());
+            }
         }
     }
 }
