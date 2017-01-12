@@ -2,4 +2,17 @@
     <string name="app_name">PictureTime</string>
     
     <string name="app_id">633ad3340d3e2f38c040ae773e0c5ec161b9ebe3a683b7560df147f59945ed99</string>
+
+
+    <string name="sort_by">Sort by</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="log_in">Login</string>
+    <string name="skip">Skip</string>
+
+    <string-array name="sort_categories">
+        <item>latest</item>
+        <item>oldest</item>
+        <item>popular</item>
+    </string-array>
 </resources>

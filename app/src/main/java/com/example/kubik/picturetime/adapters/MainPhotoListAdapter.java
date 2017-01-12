@@ -47,6 +47,11 @@ public class MainPhotoListAdapter extends RecyclerView.Adapter<MainPhotoListAdap
         notifyDataSetChanged();
     }
 
+    public void clearList() {
+        mPhotoList.clear();
+        notifyDataSetChanged();
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
