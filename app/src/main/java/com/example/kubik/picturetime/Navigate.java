@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
+import com.example.kubik.picturetime.activities.ImageActivity;
 import com.example.kubik.picturetime.activities.LoginActivity;
 import com.example.kubik.picturetime.activities.MainListActivity;
 
@@ -21,5 +22,9 @@ public final class Navigate
 
     public static void toMainListActivity(@NonNull Context context) {
         context.startActivity(new Intent(context, MainListActivity.class));
+    }
+
+    public static void toImageActivity(@NonNull Context context) {
+        context.startActivity(new Intent(context, ImageActivity.class));
     }
 }

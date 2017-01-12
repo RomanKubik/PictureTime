@@ -19,6 +19,8 @@
         </activity>
         <activity android:name=".activities.LoginActivity"/>
         <activity android:name=".activities.MainListActivity"/>
+        <activity android:name=".activities.ImageActivity"/>
+
     </application>
 
 </manifest>

@@ -8,8 +8,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
+import com.example.kubik.picturetime.Navigate;
 import com.example.kubik.picturetime.R;
 import com.example.kubik.picturetime.adapters.MainPhotoListAdapter;
 import com.example.kubik.picturetime.adapters.SortBySpinnerAdapter;
@@ -25,14 +27,12 @@ import java.util.List;
 import butterknife.BindArray;
 import butterknife.BindString;
 import butterknife.BindView;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainListActivity extends BaseActivity {
-
-    @BindString(R.string.app_id)
-    String appId;
 
     @BindView(R.id.rv_main_list)
     RecyclerView rvMainList;
@@ -42,6 +42,9 @@ public class MainListActivity extends BaseActivity {
 
     @BindView(R.id.sp_activity_main)
     Spinner spSortCategories;
+
+    @BindView(R.id.iv_random_picture)
+    ImageView ivRandomImage;
 
     private LinearLayoutManager mLayoutManager;
     private MainPhotoListAdapter mPhotoListAdapter;
@@ -125,6 +128,11 @@ public class MainListActivity extends BaseActivity {
                 Log.e("MyTag", t.getMessage());
             }
         });
+    }
+
+    @OnClick(R.id.iv_random_picture)
+    public void onRandomClicked() {
+        Navigate.toImageActivity(this);
     }
 
 }

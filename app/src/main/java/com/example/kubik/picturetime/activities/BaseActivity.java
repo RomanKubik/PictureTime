@@ -5,6 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.kubik.picturetime.R;
+
+import butterknife.BindString;
 import butterknife.ButterKnife;
 
 /**
@@ -13,6 +16,9 @@ import butterknife.ButterKnife;
  */
 
 public class BaseActivity extends AppCompatActivity {
+
+    @BindString(R.string.app_id)
+    String appId;
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {

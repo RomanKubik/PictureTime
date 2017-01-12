@@ -27,6 +27,15 @@
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@+id/tv_tb_radius"
                 android:layout_toRightOf="@+id/tv_tb_radius"/>
+            <ImageView
+                android:id="@+id/iv_random_picture"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/activity_vertical_margin"
+                android:layout_marginRight="@dimen/activity_vertical_margin"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_sync" />
 
         </RelativeLayout>
 
