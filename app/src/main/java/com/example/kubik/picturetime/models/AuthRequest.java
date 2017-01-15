@@ -9,46 +9,46 @@ import com.google.gson.annotations.SerializedName;
 public class AuthRequest {
 
     @SerializedName("client_id")
-    private String clientId;
+    private String client_id;
     @SerializedName("client_secret")
-    private String secret;
-    @SerializedName("redirected_uri")
-    private String uri;
+    private String client_secret;
+    @SerializedName("redirect_uri")
+    private String redirect_uri;
     @SerializedName("code")
     private String code;
     @SerializedName("grant_type")
-    private String type;
+    private String grant_type;
 
-    public AuthRequest(String clientId, String secret, String uri, String code, String type) {
-        this.clientId = clientId;
-        this.secret = secret;
-        this.uri = uri;
+    public AuthRequest(String client_id, String client_secret, String redirect_uri, String code, String grant_type) {
+        this.client_id = client_id;
+        this.client_secret = client_secret;
+        this.redirect_uri = redirect_uri;
         this.code = code;
-        this.type = type;
+        this.grant_type = grant_type;
     }
 
-    public String getClientId() {
-        return clientId;
+    public String getClient_id() {
+        return client_id;
     }
 
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
+    public void setClient_id(String client_id) {
+        this.client_id = client_id;
     }
 
-    public String getSecret() {
-        return secret;
+    public String getClient_secret() {
+        return client_secret;
     }
 
-    public void setSecret(String secret) {
-        this.secret = secret;
+    public void setClient_secret(String client_secret) {
+        this.client_secret = client_secret;
     }
 
-    public String getUri() {
-        return uri;
+    public String getRedirect_uri() {
+        return redirect_uri;
     }
 
-    public void setUri(String uri) {
-        this.uri = uri;
+    public void setRedirect_uri(String redirect_uri) {
+        this.redirect_uri = redirect_uri;
     }
 
     public String getCode() {
@@ -59,11 +59,11 @@ public class AuthRequest {
         this.code = code;
     }
 
-    public String getType() {
-        return type;
+    public String getGrant_type() {
+        return grant_type;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setGrant_type(String grant_type) {
+        this.grant_type = grant_type;
     }
 }

@@ -8,6 +8,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -28,5 +29,11 @@ public interface ApiInterface {
     Call<PhotoDetails> getRandomPhoto(@Query("client_id") String appId);
 
     @POST("oauth/token")
-    Call<String> authUser(@Body String request);
+    Call<AuthResponse> authUser(@Body AuthRequest request);
+
+    @POST("photos/:id/like")
+    Call<PhotoDetails>  likePhoto(@Body String photoId);
+
+    @DELETE("photos/:id/like")
+    Call<PhotoDetails> unlikePhoto(@Body String photoId);
 }

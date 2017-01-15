@@ -8,13 +8,13 @@ import com.google.gson.annotations.SerializedName;
 
 public class AuthResponse {
     @SerializedName("access_token")
-    private String accessToken;
+    private String access_token;
 
-    public String getAccessToken() {
-        return accessToken;
+    public String getAccess_token() {
+        return access_token;
     }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+    public void setAccess_token(String access_token) {
+        this.access_token = access_token;
     }
 }

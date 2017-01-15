@@ -55,12 +55,14 @@ public class MainListActivity extends BaseActivity {
 
     private static int sCurrentPage = 1;
     private static String sCurrentSortCategory;
+    private static String sToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_list);
 
+        sToken = loadToken();
         setToolbar();
         setRecyclerView();
     }

@@ -1,5 +1,6 @@
 package com.example.kubik.picturetime.activities;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -18,6 +19,13 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        Navigate.toLoginActivity(this);
+        if (loadToken() != null) {
+            Navigate.toMainListActivity(this);
+        } else {
+            Navigate.toLoginActivity(this);
+        }
+        finish();
+
+
     }
 }

@@ -1,7 +1,9 @@
 package com.example.kubik.picturetime.activities;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.SharedPreferencesCompat;
 import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -41,33 +43,34 @@ public class LoginActivity extends BaseActivity {
     WebView wvAuth;
 
     private AuthResponse mResponse;
+    private SharedPreferences mSharedPref;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        wvAuth.loadUrl("https://unsplash.com/oauth/authorize?client_id=633ad3340d3e2f38c040ae773e0c5ec161b9ebe3a683b7560df147f59945ed99&redirect_uri=urn%3Aietf%3Awg%3Aoauth%3A2.0%3Aoob&response_type=code&scope=public");
+        wvAuth.loadUrl("https://unsplash.com/oauth/authorize?client_id=633ad3340d3e2f38c040ae773e0c5ec161b9ebe3a683b7560df147f59945ed99&redirect_uri=urn%3Aietf%3Awg%3Aoauth%3A2.0%3Aoob&response_type=code&scope=public+write_likes");
         wvAuth.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
                 if (url.toLowerCase().contains("https://unsplash.com/oauth/authorize/")) {
                     int idx = url.lastIndexOf('/');
                     String code = url.substring(idx + 1);
-                    ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+                    ApiInterface apiService = ApiClient.getOAuthClient().create(ApiInterface.class);
                     AuthRequest request = new AuthRequest(appId, secret, redirectUrl, code, grantType);
-                    String strRequest = new Gson().toJson(request);
-                    Call<String> call = apiService.authUser(strRequest);
-                    call.enqueue(new Callback<String>() {
+                    Call<AuthResponse> call = apiService.authUser(request);
+                    call.enqueue(new Callback<AuthResponse>() {
                         @Override
-                        public void onResponse(Call<String> call, Response<String> response) {
-                            String resp = response.body();
-                            mResponse = new Gson().fromJson(resp, AuthResponse.class);
-                            Log.d("MyTag", response.body().toString());
+                        public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
+                            mResponse = response.body();
+                            saveToken(mResponse.getAccess_token());
+                            Navigate.toMainListActivity(getApplicationContext());
+                            finish();
                         }
 
                         @Override
-                        public void onFailure(Call<String> call, Throwable t) {
+                        public void onFailure(Call<AuthResponse> call, Throwable t) {
 
                         }
                     });
