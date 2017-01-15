@@ -1,6 +1,7 @@
 package com.example.kubik.picturetime.activities;
 
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,21 +24,25 @@ public class BaseActivity extends AppCompatActivity {
     @BindString(R.string.app_id)
     String appId;
 
-    private SharedPreferences sPreferences = getPreferences(MODE_PRIVATE);
-
+    private static SharedPreferences sPreferences;
 
     protected static final String PREF_TOKEN = "token";
 
-    protected void saveToken(String token) {
-        sPreferences = getPreferences(MODE_PRIVATE);
+    protected static void saveToken(String token) {
         SharedPreferences.Editor editor = sPreferences.edit();
         editor.putString(PREF_TOKEN, token);
-        editor.apply();
+        editor.commit();
     }
 
     @Nullable
-    protected String loadToken() {
+    protected static String loadToken() {
         return sPreferences.getString(PREF_TOKEN, null);
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (sPreferences == null) sPreferences = getPreferences(MODE_PRIVATE);
     }
 
     @Override

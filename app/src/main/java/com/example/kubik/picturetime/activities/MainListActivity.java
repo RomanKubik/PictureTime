@@ -7,9 +7,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.kubik.picturetime.Navigate;
 import com.example.kubik.picturetime.R;
@@ -24,8 +24,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import butterknife.BindArray;
-import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.OnClick;
 import retrofit2.Call;
@@ -52,6 +50,8 @@ public class MainListActivity extends BaseActivity {
 
     private List<PhotoDetails> mPhotoList = new ArrayList<>();
     private List<String> mSortCategories = new ArrayList<>();
+
+    private ApiInterface mApiService;
 
     private static int sCurrentPage = 1;
     private static String sCurrentSortCategory;
@@ -109,14 +109,22 @@ public class MainListActivity extends BaseActivity {
         mPhotoListAdapter.setOnItemClickListener(new MainPhotoListAdapter.OnItemClickListener() {
             @Override
             public void onItemClicked(View view, int position) {
-                Log.d("MyTag", String.valueOf(position));
+                if (sToken != null) {
+                    onLikeClicked(position);
+                } else {
+                    Toast.makeText(getApplicationContext(), R.string.err_auth, Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
     private void loadData() {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<List<PhotoDetails>> call = apiService.getPhotosList(appId, sCurrentPage, sCurrentSortCategory);
+        if (sToken != null) {
+            mApiService = ApiClient.getAuthorizedClient(sToken).create(ApiInterface.class);
+        } else {
+            mApiService = ApiClient.getClient().create(ApiInterface.class);
+        }
+        Call<List<PhotoDetails>> call = mApiService.getPhotosList(appId, sCurrentPage, sCurrentSortCategory);
         call.enqueue(new Callback<List<PhotoDetails>>() {
             @Override
             public void onResponse(Call<List<PhotoDetails>> call, Response<List<PhotoDetails>> response) {
@@ -130,6 +138,40 @@ public class MainListActivity extends BaseActivity {
                 Log.e("MyTag", t.getMessage());
             }
         });
+    }
+
+    public void onLikeClicked(final int position) {
+        if (mPhotoList.get(position).isLiked()) {
+            Call<PhotoDetails> call = mApiService.unlikePhoto(mPhotoList.get(position).getId(), appId);
+            call.enqueue(new Callback<PhotoDetails>() {
+                @Override
+                public void onResponse(Call<PhotoDetails> call, Response<PhotoDetails> response) {
+                    mPhotoList.get(position).setLiked(false);
+                    mPhotoList.get(position).setLikes(mPhotoList.get(position).getLikes() - 1);
+                    mPhotoListAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onFailure(Call<PhotoDetails> call, Throwable t) {
+
+                }
+            });
+        } else {
+            Call<PhotoDetails> call = mApiService.likePhoto(mPhotoList.get(position).getId(), appId);
+            call.enqueue(new Callback<PhotoDetails>() {
+                @Override
+                public void onResponse(Call<PhotoDetails> call, Response<PhotoDetails> response) {
+                    mPhotoList.get(position).setLiked(true);
+                    mPhotoList.get(position).setLikes(mPhotoList.get(position).getLikes() + 1);
+                    mPhotoListAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onFailure(Call<PhotoDetails> call, Throwable t) {
+
+                }
+            });
+        }
     }
 
     @OnClick(R.id.iv_random_picture)

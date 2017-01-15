@@ -16,6 +16,8 @@ public class PhotoDetails {
     private User user;
     @SerializedName("urls")
     private Urls urls;
+    @SerializedName("liked_by_user")
+    private boolean isLiked;
 
     public String getId() {
         return id;
@@ -47,5 +49,13 @@ public class PhotoDetails {
 
     public void setUrls(Urls urls) {
         this.urls = urls;
+    }
+
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    public void setLiked(boolean liked) {
+        isLiked = liked;
     }
 }

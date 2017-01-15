@@ -53,8 +53,7 @@ public class MainPhotoListAdapter extends RecyclerView.Adapter<MainPhotoListAdap
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {;
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.item_main_list, parent, false);
 
@@ -74,6 +73,11 @@ public class MainPhotoListAdapter extends RecyclerView.Adapter<MainPhotoListAdap
 
         holder.tvAuthor.setText(photoDetails.getUser().getUsername());
         holder.tvLikes.setText(String.valueOf(photoDetails.getLikes()));
+        if (photoDetails.isLiked()) {
+            holder.ivLiked.setImageResource(R.drawable.filled_heart);
+        } else {
+            holder.ivLiked.setImageResource(R.drawable.heart);
+        }
     }
 
     @Override
@@ -89,6 +93,8 @@ public class MainPhotoListAdapter extends RecyclerView.Adapter<MainPhotoListAdap
         TextView tvAuthor;
         @BindView(R.id.tv_item_main_list_likes)
         TextView tvLikes;
+        @BindView(R.id.iv_like)
+        ImageView ivLiked;
 
         public ViewHolder(View itemView) {
             super(itemView);

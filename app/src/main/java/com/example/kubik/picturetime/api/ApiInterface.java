@@ -12,6 +12,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -31,9 +32,9 @@ public interface ApiInterface {
     @POST("oauth/token")
     Call<AuthResponse> authUser(@Body AuthRequest request);
 
-    @POST("photos/:id/like")
-    Call<PhotoDetails>  likePhoto(@Body String photoId);
+    @POST("photos/{id}/like")
+    Call<PhotoDetails>  likePhoto(@Path("id") String photoId, @Query("client_id") String appId);
 
-    @DELETE("photos/:id/like")
-    Call<PhotoDetails> unlikePhoto(@Body String photoId);
+    @DELETE("photos/{id}/like")
+    Call<PhotoDetails> unlikePhoto(@Path("id") String photoId, @Query("client_id") String appId);
 }
