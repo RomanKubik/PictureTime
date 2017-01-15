@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">PictureTime</string>
+    
+    <string name="app_id">633ad3340d3e2f38c040ae773e0c5ec161b9ebe3a683b7560df147f59945ed99</string>
+    <string name="app_secret">e942fc1cfbbf9b34da89e7ec9633b5a6fc30fcaadf36bb6b2bfeb21f692eaa34</string>
+    <string name="redirect_url">urn:ietf:wg:oauth:2.0:oob</string>
+    <string name="grant_type">authorization_code</string>
+
+    <string name="sort_by">Sort by</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="log_in">Login</string>
+    <string name="skip">Skip</string>
+    <string name="err_auth">To like/unlike photos please authorize</string>
+
+    <string-array name="sort_categories">
+        <item>latest</item>
+        <item>oldest</item>
+        <item>popular</item>
+    </string-array>
 </resources>
