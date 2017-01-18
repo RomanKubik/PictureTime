@@ -11,6 +11,8 @@ public class User {
     private String id;
     @SerializedName("username")
     private String username;
+    @SerializedName("bio")
+    private String bio;
 
     public String getId() {
         return id;
@@ -26,5 +28,13 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 }

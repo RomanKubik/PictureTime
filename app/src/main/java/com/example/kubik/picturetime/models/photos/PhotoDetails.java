@@ -12,12 +12,17 @@ public class PhotoDetails {
     private String id;
     @SerializedName("likes")
     private int likes;
+    @SerializedName("liked_by_user")
+    private boolean isLiked;
+    @SerializedName("exif")
+    private CameraSettings settings;
+    @SerializedName("location")
+    private PhotoLocation location;
     @SerializedName("user")
     private User user;
     @SerializedName("urls")
     private Urls urls;
-    @SerializedName("liked_by_user")
-    private boolean isLiked;
+
 
     public String getId() {
         return id;
@@ -33,6 +38,30 @@ public class PhotoDetails {
 
     public void setLikes(int likes) {
         this.likes = likes;
+    }
+
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    public void setLiked(boolean liked) {
+        isLiked = liked;
+    }
+
+    public CameraSettings getSettings() {
+        return settings;
+    }
+
+    public void setSettings(CameraSettings settings) {
+        this.settings = settings;
+    }
+
+    public PhotoLocation getLocation() {
+        return location;
+    }
+
+    public void setLocation(PhotoLocation location) {
+        this.location = location;
     }
 
     public User getUser() {
@@ -51,11 +80,4 @@ public class PhotoDetails {
         this.urls = urls;
     }
 
-    public boolean isLiked() {
-        return isLiked;
-    }
-
-    public void setLiked(boolean liked) {
-        isLiked = liked;
-    }
 }

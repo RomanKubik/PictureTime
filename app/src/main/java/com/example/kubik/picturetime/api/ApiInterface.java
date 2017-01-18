@@ -29,6 +29,9 @@ public interface ApiInterface {
     @GET("photos/random")
     Call<PhotoDetails> getRandomPhoto(@Query("client_id") String appId);
 
+    @GET("photos/{id}")
+    Call<PhotoDetails> getPhoto(@Path("id") String photoId, @Query("client_id") String appId);
+
     @POST("oauth/token")
     Call<AuthResponse> authUser(@Body AuthRequest request);
 
