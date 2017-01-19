@@ -17,6 +17,7 @@
 
     <string name="msg_no_author_bio">No author biography</string>
     <string name="msg_no_location">Location undefined</string>
+    <string name="err_load_data">Can`t load data. Please try again later.</string>
 
     <string-array name="sort_categories">
         <item>latest</item>

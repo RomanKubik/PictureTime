@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,8 +14,6 @@ import com.example.kubik.picturetime.api.ApiClient;
 import com.example.kubik.picturetime.api.ApiInterface;
 import com.example.kubik.picturetime.models.photos.PhotoDetails;
 import com.squareup.picasso.Picasso;
-
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -30,7 +27,7 @@ import retrofit2.Response;
 
 public class ImageActivity extends BaseActivity {
 
-    @BindView(R.id.iv_random_image)
+    @BindView(R.id.iv_activity_image)
     ImageView ivRandomPicture;
     @BindView(R.id.iv_det_like)
     ImageView ivLiked;
@@ -58,7 +55,7 @@ public class ImageActivity extends BaseActivity {
 
         getExtras();
         sToken = loadToken();
-        mApiService = ApiClient.getClient().create(ApiInterface.class);
+        mApiService = ApiClient.getAuthorizedClient(sToken).create(ApiInterface.class);
         showPhoto();
     }
 
@@ -115,7 +112,7 @@ public class ImageActivity extends BaseActivity {
         });
     }
 
-    @OnClick(R.id.iv_det_like)
+    @OnClick(R.id.rl_activity_image)
     public void onLikeClicked() {
         if (sToken != null) {
             if (mPhotoDetails.isLiked()) {
@@ -124,7 +121,9 @@ public class ImageActivity extends BaseActivity {
                     @Override
                     public void onResponse(Call<PhotoDetails> call, Response<PhotoDetails> response) {
                         ivLiked.setImageResource(R.drawable.heart);
-                        mPhotoDetails = response.body();
+                        mPhotoDetails.setLikes(mPhotoDetails.getLikes() - 1);
+                        mPhotoDetails.setLiked(false);
+                        tvLikes.setText(String.valueOf(mPhotoDetails.getLikes()));
 
                     }
 
@@ -139,8 +138,9 @@ public class ImageActivity extends BaseActivity {
                     @Override
                     public void onResponse(Call<PhotoDetails> call, Response<PhotoDetails> response) {
                         ivLiked.setImageResource(R.drawable.filled_heart);
-                        mPhotoDetails = response.body();
-                    }
+                        mPhotoDetails.setLikes(mPhotoDetails.getLikes() + 1);
+                        mPhotoDetails.setLiked(true);
+                        tvLikes.setText(String.valueOf(mPhotoDetails.getLikes()));                    }
 
                     @Override
                     public void onFailure(Call<PhotoDetails> call, Throwable t) {
@@ -148,7 +148,6 @@ public class ImageActivity extends BaseActivity {
                     }
                 });
             }
-            tvLikes.setText(String.valueOf(mPhotoDetails.getLikes()));
         } else {
             Toast.makeText(getApplicationContext(), R.string.err_auth, Toast.LENGTH_SHORT).show();
         }

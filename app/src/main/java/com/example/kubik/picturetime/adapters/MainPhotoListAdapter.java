@@ -48,11 +48,6 @@ public class MainPhotoListAdapter extends RecyclerView.Adapter<MainPhotoListAdap
         this.mPhotoList = photoList;
     }
 
-    public void addItemsToList(List<PhotoDetails> list) {
-        mPhotoList.addAll(list);
-        notifyDataSetChanged();
-    }
-
     public void clearList() {
         mPhotoList.clear();
         notifyDataSetChanged();

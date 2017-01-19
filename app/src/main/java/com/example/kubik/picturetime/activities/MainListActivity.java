@@ -124,9 +124,13 @@ public class MainListActivity extends BaseActivity {
         call.enqueue(new Callback<List<PhotoDetails>>() {
             @Override
             public void onResponse(Call<List<PhotoDetails>> call, Response<List<PhotoDetails>> response) {
+                if (response.body() == null) {
+                    Toast.makeText(getApplicationContext() ,R.string.err_load_data, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 List<PhotoDetails> list = response.body();
                 mPhotoList.addAll(list);
-                mPhotoListAdapter.addItemsToList(list);
+                mPhotoListAdapter.notifyDataSetChanged();
                 sCurrentPage++;
             }
 
