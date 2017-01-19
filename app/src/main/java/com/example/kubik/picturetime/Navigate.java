@@ -16,6 +16,8 @@ import com.example.kubik.picturetime.models.photos.PhotoDetails;
 
 public final class Navigate
 {
+    public static final String EXTRA_IMAGE_ID = "image_id";
+
     private Navigate(){}
 
     public static void toLoginActivity(@NonNull Context context) {
@@ -26,7 +28,9 @@ public final class Navigate
         context.startActivity(new Intent(context, MainListActivity.class));
     }
 
-    public static void toImageActivity(@NonNull Context context) {
-        context.startActivity(new Intent(context, ImageActivity.class));
+    public static void toImageActivity(@NonNull Context context, @Nullable String id) {
+        Intent intent = new Intent(context, ImageActivity.class);
+        intent.putExtra(EXTRA_IMAGE_ID, id);
+        context.startActivity(intent);
     }
 }

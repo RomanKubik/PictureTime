@@ -109,11 +109,7 @@ public class MainListActivity extends BaseActivity {
         mPhotoListAdapter.setOnItemClickListener(new MainPhotoListAdapter.OnItemClickListener() {
             @Override
             public void onItemClicked(View view, int position) {
-                if (sToken != null) {
-                    onLikeClicked(position);
-                } else {
-                    Toast.makeText(getApplicationContext(), R.string.err_auth, Toast.LENGTH_SHORT).show();
-                }
+                Navigate.toImageActivity(getApplicationContext(), mPhotoList.get(position).getId());
             }
         });
     }
@@ -128,8 +124,13 @@ public class MainListActivity extends BaseActivity {
         call.enqueue(new Callback<List<PhotoDetails>>() {
             @Override
             public void onResponse(Call<List<PhotoDetails>> call, Response<List<PhotoDetails>> response) {
-                mPhotoList = response.body();
-                mPhotoListAdapter.addItemsToList(mPhotoList);
+                if (response.body() == null) {
+                    Toast.makeText(getApplicationContext() ,R.string.err_load_data, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                List<PhotoDetails> list = response.body();
+                mPhotoList.addAll(list);
+                mPhotoListAdapter.notifyDataSetChanged();
                 sCurrentPage++;
             }
 
@@ -140,43 +141,9 @@ public class MainListActivity extends BaseActivity {
         });
     }
 
-    public void onLikeClicked(final int position) {
-        if (mPhotoList.get(position).isLiked()) {
-            Call<PhotoDetails> call = mApiService.unlikePhoto(mPhotoList.get(position).getId(), appId);
-            call.enqueue(new Callback<PhotoDetails>() {
-                @Override
-                public void onResponse(Call<PhotoDetails> call, Response<PhotoDetails> response) {
-                    mPhotoList.get(position).setLiked(false);
-                    mPhotoList.get(position).setLikes(mPhotoList.get(position).getLikes() - 1);
-                    mPhotoListAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onFailure(Call<PhotoDetails> call, Throwable t) {
-
-                }
-            });
-        } else {
-            Call<PhotoDetails> call = mApiService.likePhoto(mPhotoList.get(position).getId(), appId);
-            call.enqueue(new Callback<PhotoDetails>() {
-                @Override
-                public void onResponse(Call<PhotoDetails> call, Response<PhotoDetails> response) {
-                    mPhotoList.get(position).setLiked(true);
-                    mPhotoList.get(position).setLikes(mPhotoList.get(position).getLikes() + 1);
-                    mPhotoListAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onFailure(Call<PhotoDetails> call, Throwable t) {
-
-                }
-            });
-        }
-    }
-
     @OnClick(R.id.iv_random_picture)
     public void onRandomClicked() {
-        Navigate.toImageActivity(this);
+        Navigate.toImageActivity(this, null);
     }
 
 }

@@ -6,12 +6,18 @@
     <string name="redirect_url">urn:ietf:wg:oauth:2.0:oob</string>
     <string name="grant_type">authorization_code</string>
 
-    <string name="sort_by">Sort by</string>
+    <string name="sort_by">Sort by:  </string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="log_in">Login</string>
     <string name="skip">Skip</string>
     <string name="err_auth">To like/unlike photos please authorize</string>
+    <string name="camera_information">Camera information:</string>
+    <string name="author_bio">Author bio:</string>
+
+    <string name="msg_no_author_bio">No author biography</string>
+    <string name="msg_no_location">Location undefined</string>
+    <string name="err_load_data">Can`t load data. Please try again later.</string>
 
     <string-array name="sort_categories">
         <item>latest</item>
