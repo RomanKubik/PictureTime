@@ -55,7 +55,12 @@ public class ImageActivity extends BaseActivity {
 
         getExtras();
         sToken = loadToken();
-        mApiService = ApiClient.getAuthorizedClient(sToken).create(ApiInterface.class);
+        if (sToken != null)
+        {
+            mApiService = ApiClient.getAuthorizedClient(sToken).create(ApiInterface.class);
+        } else {
+            mApiService = ApiClient.getClient().create(ApiInterface.class);
+        }
         showPhoto();
     }
 

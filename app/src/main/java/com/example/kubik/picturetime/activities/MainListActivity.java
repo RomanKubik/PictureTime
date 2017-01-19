@@ -109,9 +109,13 @@ public class MainListActivity extends BaseActivity {
         mPhotoListAdapter.setOnItemClickListener(new MainPhotoListAdapter.OnItemClickListener() {
             @Override
             public void onItemClicked(View view, int position) {
-                Navigate.toImageActivity(getApplicationContext(), mPhotoList.get(position).getId());
+                showPicture(mPhotoList.get(position).getId());
             }
         });
+    }
+
+    private void showPicture(String id) {
+        Navigate.toImageActivity(this, id);
     }
 
     private void loadData() {
