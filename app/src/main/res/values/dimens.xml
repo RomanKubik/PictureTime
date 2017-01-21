@@ -36,5 +36,7 @@
 
     <!-- like heart dimen -->
     <dimen name="like_dimen">20dp</dimen>
+    <dimen name="favorite_image">40dp</dimen>
+    <dimen name="tv_margin">8dp</dimen>
 
 </resources>

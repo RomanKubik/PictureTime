@@ -6,8 +6,5 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/cardview_dark_background</item>
         <item name="colorAccent">@color/colorAccent</item>
-
-
     </style>
-
 </resources>
