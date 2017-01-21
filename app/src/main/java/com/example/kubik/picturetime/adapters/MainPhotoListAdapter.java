@@ -67,6 +67,12 @@ public class MainPhotoListAdapter extends RecyclerView.Adapter<MainPhotoListAdap
         PhotoDetails photoDetails = mPhotoList.get(position);
 
         Picasso.with(mContext)
+                .load(photoDetails.getUser().getProfileImage().getMedium())
+                .fit()
+                .centerCrop()
+                .into(holder.ivAuthorIcon);
+
+        Picasso.with(mContext)
                 .load(photoDetails.getUrls().getRegular())
                 .fit()
                 .centerCrop()
@@ -75,9 +81,9 @@ public class MainPhotoListAdapter extends RecyclerView.Adapter<MainPhotoListAdap
         holder.tvAuthor.setText(photoDetails.getUser().getUsername());
         holder.tvLikes.setText(String.valueOf(photoDetails.getLikes()));
         if (photoDetails.isLiked()) {
-            holder.ivLiked.setImageResource(R.drawable.filled_heart);
+            holder.ivLiked.setImageResource(R.drawable.ic_favorite);
         } else {
-            holder.ivLiked.setImageResource(R.drawable.heart);
+            holder.ivLiked.setImageResource(R.drawable.ic_favorite_border);
         }
 
         setAnimation(holder.itemView, position);
@@ -115,6 +121,8 @@ public class MainPhotoListAdapter extends RecyclerView.Adapter<MainPhotoListAdap
         TextView tvLikes;
         @BindView(R.id.iv_like)
         ImageView ivLiked;
+        @BindView(R.id.iv_icon_author)
+        ImageView ivAuthorIcon;
 
         public ViewHolder(View itemView) {
             super(itemView);

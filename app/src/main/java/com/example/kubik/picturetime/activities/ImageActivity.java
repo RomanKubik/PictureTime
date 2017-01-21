@@ -27,6 +27,8 @@ import retrofit2.Response;
 
 public class ImageActivity extends BaseActivity {
 
+    @BindView(R.id.iv_author)
+    ImageView ivAuthorIcon;
     @BindView(R.id.iv_activity_image)
     ImageView ivRandomPicture;
     @BindView(R.id.iv_det_like)
@@ -47,6 +49,12 @@ public class ImageActivity extends BaseActivity {
     private String mImageId;
 
     private static String sToken;
+
+    private static OnPhotoLikedListener sPhotoLikedListener;
+
+    public static void setOnPhotoLikedListener(OnPhotoLikedListener listener) {
+        sPhotoLikedListener = listener;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,6 +91,11 @@ public class ImageActivity extends BaseActivity {
             public void onResponse(Call<PhotoDetails> call, Response<PhotoDetails> response) {
                 mPhotoDetails = response.body();
                 Picasso.with(getApplicationContext())
+                        .load(mPhotoDetails.getUser().getProfileImage().getMedium())
+                        .fit()
+                        .centerCrop()
+                        .into(ivAuthorIcon);
+                Picasso.with(getApplicationContext())
                         .load(mPhotoDetails.getUrls().getRegular())
                         .fit()
                         .centerCrop()
@@ -90,9 +103,9 @@ public class ImageActivity extends BaseActivity {
                 tvAuthor.setText(mPhotoDetails.getUser().getUsername());
                 tvLikes.setText(String.valueOf(mPhotoDetails.getLikes()));
                 if (mPhotoDetails.isLiked()) {
-                    ivLiked.setImageResource(R.drawable.filled_heart);
+                    ivLiked.setImageResource(R.drawable.ic_favorite);
                 } else {
-                    ivLiked.setImageResource(R.drawable.heart);
+                    ivLiked.setImageResource(R.drawable.ic_favorite_border);
                 }
 
                 if (mPhotoDetails.getLocation() != null) {
@@ -125,11 +138,11 @@ public class ImageActivity extends BaseActivity {
                 call.enqueue(new Callback<PhotoDetails>() {
                     @Override
                     public void onResponse(Call<PhotoDetails> call, Response<PhotoDetails> response) {
-                        ivLiked.setImageResource(R.drawable.heart);
+                        ivLiked.setImageResource(R.drawable.ic_favorite_border);
                         mPhotoDetails.setLikes(mPhotoDetails.getLikes() - 1);
                         mPhotoDetails.setLiked(false);
                         tvLikes.setText(String.valueOf(mPhotoDetails.getLikes()));
-
+                        sPhotoLikedListener.onPhotoDisliked(mPhotoDetails.getId());
                     }
 
                     @Override
@@ -142,10 +155,12 @@ public class ImageActivity extends BaseActivity {
                 call.enqueue(new Callback<PhotoDetails>() {
                     @Override
                     public void onResponse(Call<PhotoDetails> call, Response<PhotoDetails> response) {
-                        ivLiked.setImageResource(R.drawable.filled_heart);
+                        ivLiked.setImageResource(R.drawable.ic_favorite);
                         mPhotoDetails.setLikes(mPhotoDetails.getLikes() + 1);
                         mPhotoDetails.setLiked(true);
-                        tvLikes.setText(String.valueOf(mPhotoDetails.getLikes()));                    }
+                        tvLikes.setText(String.valueOf(mPhotoDetails.getLikes()));
+                        sPhotoLikedListener.onPhotoLiked(mPhotoDetails.getId());
+                    }
 
                     @Override
                     public void onFailure(Call<PhotoDetails> call, Throwable t) {
@@ -156,5 +171,10 @@ public class ImageActivity extends BaseActivity {
         } else {
             Toast.makeText(getApplicationContext(), R.string.err_auth, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public interface OnPhotoLikedListener {
+        void onPhotoLiked(String id);
+        void onPhotoDisliked(String id);
     }
 }
