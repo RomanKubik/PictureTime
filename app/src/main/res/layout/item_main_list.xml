@@ -9,36 +9,45 @@
         android:id="@+id/rl_item_main_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.example.kubik.picturetime.customViews.SquareImageView
-            android:id="@+id/iv_item_main_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        <com.example.kubik.picturetime.customViews.CircleImageView
+            android:id="@+id/iv_icon_author"
+            android:layout_width="@dimen/favorite_image"
+            android:layout_height="@dimen/favorite_image"
+            android:layout_margin="@dimen/card_margin" />
         <TextView
             android:id="@+id/tv_item_main_list_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/card_margin"
-            android:layout_marginLeft="@dimen/card_margin"
-            android:layout_below="@+id/iv_item_main_list"
-            android:textSize="@dimen/text_size_large"/>
+            android:layout_marginTop="@dimen/tv_margin"
+            android:layout_marginStart="@dimen/tv_margin"
+            android:layout_marginLeft="@dimen/tv_margin"
+            android:layout_toEndOf="@+id/iv_icon_author"
+            android:layout_toRightOf="@+id/iv_icon_author"
+            android:textSize="@dimen/text_size_large"
+            android:textColor="@color/colorPrimaryDark"/>
+        <com.example.kubik.picturetime.customViews.SquareImageView
+            android:id="@+id/iv_item_main_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/iv_icon_author"/>
         <ImageView
             android:id="@+id/iv_like"
-            android:layout_width="@dimen/like_dimen"
-            android:layout_height="@dimen/like_dimen"
-            android:layout_marginTop="@dimen/top_like_margin"
+            android:layout_width="@dimen/favorite_image"
+            android:layout_height="@dimen/favorite_image"
             android:layout_marginEnd="@dimen/card_margin"
             android:layout_marginRight="@dimen/card_margin"
             android:layout_below="@+id/iv_item_main_list"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/heart"/>
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/ic_favorite_border"/>
         <TextView
             android:id="@+id/tv_item_main_list_likes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/iv_item_main_list"
-            android:layout_toStartOf="@+id/iv_like"
-            android:layout_toLeftOf="@+id/iv_like"
-            android:textSize="@dimen/text_size_large"/>
+            android:layout_toEndOf="@+id/iv_like"
+            android:layout_toRightOf="@+id/iv_like"
+            android:textSize="@dimen/text_size_super_large"
+            android:textColor="@color/colorPrimaryDark"/>
     </RelativeLayout>
 </android.support.v7.widget.CardView>

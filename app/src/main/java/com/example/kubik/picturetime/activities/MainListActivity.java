@@ -23,6 +23,7 @@ import com.example.kubik.picturetime.utils.EndlessRecyclerViewScrollListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -30,7 +31,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainListActivity extends BaseActivity {
+public class MainListActivity extends BaseActivity implements ImageActivity.OnPhotoLikedListener {
 
     @BindView(R.id.rv_main_list)
     RecyclerView rvMainList;
@@ -65,6 +66,7 @@ public class MainListActivity extends BaseActivity {
         sToken = loadToken();
         setToolbar();
         setRecyclerView();
+        ImageActivity.setOnPhotoLikedListener(this);
     }
 
     private void setToolbar() {
@@ -150,4 +152,27 @@ public class MainListActivity extends BaseActivity {
         Navigate.toImageActivity(this, null);
     }
 
+    @Override
+    public void onPhotoLiked(String id) {
+        Log.d("MyTag", "Liked");
+        for (int i = 0; i < mPhotoList.size(); i++) {
+            if (mPhotoList.get(i).getId().equals(id)) {
+                mPhotoList.get(i).setLiked(true);
+                mPhotoList.get(i).setLikes(mPhotoList.get(i).getLikes() + 1);
+                mPhotoListAdapter.notifyItemChanged(i);
+            }
+        }
+    }
+
+    @Override
+    public void onPhotoDisliked(String id) {
+        Log.d("MyTag", "Disliked");
+        for (int i = 0; i < mPhotoList.size(); i++) {
+            if (mPhotoList.get(i).getId().equals(id)) {
+                mPhotoList.get(i).setLiked(false);
+                mPhotoList.get(i).setLikes(mPhotoList.get(i).getLikes() - 1);
+                mPhotoListAdapter.notifyItemChanged(i);
+            }
+        }
+    }
 }

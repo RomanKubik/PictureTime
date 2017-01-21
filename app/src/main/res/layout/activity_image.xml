@@ -11,49 +11,54 @@
             android:id="@+id/rl_activity_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <com.example.kubik.picturetime.customViews.SquareImageView
-                android:id="@+id/iv_activity_image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
+            <com.example.kubik.picturetime.customViews.CircleImageView
+                android:id="@+id/iv_author"
+                android:layout_width="@dimen/favorite_image"
+                android:layout_height="@dimen/favorite_image"
+                android:layout_margin="@dimen/card_margin"/>
             <TextView
                 android:id="@+id/tv_author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/iv_activity_image"
-                android:layout_marginLeft="@dimen/card_margin"
-                android:layout_marginStart="@dimen/card_margin"
-                android:textSize="@dimen/text_size_large" />
-
+                android:layout_marginTop="@dimen/tv_margin"
+                android:layout_marginStart="@dimen/tv_margin"
+                android:layout_marginLeft="@dimen/tv_margin"
+                android:layout_toEndOf="@+id/iv_author"
+                android:layout_toRightOf="@+id/iv_author"
+                android:textSize="@dimen/text_size_large"
+                android:textColor="@color/colorPrimaryDark"/>
+            <com.example.kubik.picturetime.customViews.SquareImageView
+                android:id="@+id/iv_activity_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/iv_author"/>
             <ImageView
                 android:id="@+id/iv_det_like"
-                android:layout_width="@dimen/like_dimen"
-                android:layout_height="@dimen/like_dimen"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/iv_activity_image"
+                android:layout_width="@dimen/favorite_image"
+                android:layout_height="@dimen/favorite_image"
                 android:layout_marginEnd="@dimen/card_margin"
                 android:layout_marginRight="@dimen/card_margin"
-                android:layout_marginTop="@dimen/top_like_margin"
-                android:src="@drawable/heart" />
-
+                android:layout_below="@+id/iv_activity_image"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:src="@drawable/ic_favorite_border"/>
             <TextView
                 android:id="@+id/tv_likes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/iv_activity_image"
-                android:layout_toLeftOf="@+id/iv_det_like"
-                android:layout_toStartOf="@+id/iv_det_like"
-                android:textSize="@dimen/text_size_large" />
-
+                android:layout_toEndOf="@+id/iv_det_like"
+                android:layout_toRightOf="@+id/iv_det_like"
+                android:textSize="@dimen/text_size_super_large"
+                android:textColor="@color/colorPrimaryDark"/>
             <TextView
                 android:id="@+id/tv_place"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_likes"
                 android:layout_marginLeft="@dimen/card_margin"
-                android:layout_marginStart="@dimen/card_margin" />
+                android:layout_marginStart="@dimen/card_margin"
+                android:textColor="@color/colorPrimaryDark"/>
         </RelativeLayout>
         <TextView
             android:layout_width="match_parent"
@@ -62,14 +67,16 @@
             android:layout_marginStart="@dimen/top_like_margin"
             android:layout_marginTop="@dimen/card_margin"
             android:text="@string/author_bio"
-            android:textSize="@dimen/text_size_large" />
+            android:textSize="@dimen/text_size_large"
+            android:textColor="@color/colorPrimaryDark"/>
 
         <TextView
             android:id="@+id/tv_author_bio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/top_like_margin"
-            android:layout_marginStart="@dimen/top_like_margin" />
+            android:layout_marginStart="@dimen/top_like_margin"
+            android:textColor="@color/colorPrimaryDark"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -78,14 +85,16 @@
             android:layout_marginStart="@dimen/top_like_margin"
             android:layout_marginTop="@dimen/card_margin"
             android:text="@string/camera_information"
-            android:textSize="@dimen/text_size_large" />
+            android:textSize="@dimen/text_size_large"
+            android:textColor="@color/colorPrimaryDark"/>
 
         <TextView
             android:id="@+id/tv_camera_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/top_like_margin"
-            android:layout_marginStart="@dimen/top_like_margin" />
+            android:layout_marginStart="@dimen/top_like_margin"
+            android:textColor="@color/colorPrimaryDark"/>
 
     </LinearLayout>
 </ScrollView>
