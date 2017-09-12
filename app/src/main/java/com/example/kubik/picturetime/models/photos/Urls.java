@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Urls {
 
-    @SerializedName("regular")
+    @SerializedName("small")
     private String regular;
 
     public String getRegular() {

@@ -9,7 +9,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
-import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -24,6 +23,7 @@ public interface ApiInterface {
     @GET("photos")
     Call<List<PhotoDetails>> getPhotosList(@Query("client_id") String appId,
                                            @Query("page") int page,
+                                           @Query("per_page") int perPage,
                                            @Query("order_by") String orderBy);
 
     @GET("photos/random")

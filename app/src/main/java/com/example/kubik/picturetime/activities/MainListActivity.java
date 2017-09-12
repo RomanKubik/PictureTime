@@ -23,7 +23,6 @@ import com.example.kubik.picturetime.utils.EndlessRecyclerViewScrollListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -45,11 +44,8 @@ public class MainListActivity extends BaseActivity implements ImageActivity.OnPh
     @BindView(R.id.iv_random_picture)
     ImageView ivRandomImage;
 
-    private LinearLayoutManager mLayoutManager;
     private MainPhotoListAdapter mPhotoListAdapter;
-    private EndlessRecyclerViewScrollListener mScrollListener;
 
-    private List<PhotoDetails> mPhotoList = new ArrayList<>();
     private List<String> mSortCategories = new ArrayList<>();
 
     private ApiInterface mApiService;
@@ -83,8 +79,7 @@ public class MainListActivity extends BaseActivity implements ImageActivity.OnPh
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 sCurrentPage = 1;
                 sCurrentSortCategory = mSortCategories.get(i);
-                mPhotoList.clear();
-                mPhotoListAdapter.clearList();
+                mPhotoListAdapter.clearData();
                 loadData();
             }
 
@@ -96,9 +91,9 @@ public class MainListActivity extends BaseActivity implements ImageActivity.OnPh
     }
 
     private void setRecyclerView() {
-        mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        mPhotoListAdapter = new MainPhotoListAdapter(this, mPhotoList);
-        mScrollListener = new EndlessRecyclerViewScrollListener(mLayoutManager) {
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        mPhotoListAdapter = new MainPhotoListAdapter(getResources().getColor(R.color.colorPrimary));
+        EndlessRecyclerViewScrollListener mScrollListener = new EndlessRecyclerViewScrollListener(mLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 Log.d("MyTag", "onLoadMore");
@@ -110,10 +105,11 @@ public class MainListActivity extends BaseActivity implements ImageActivity.OnPh
         rvMainList.addOnScrollListener(mScrollListener);
         mPhotoListAdapter.setOnItemClickListener(new MainPhotoListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClicked(View view, int position) {
-                showPicture(mPhotoList.get(position).getId());
+            public void onItemClicked(int position) {
+//                showPicture(photoDetails.getId());
             }
         });
+        loadData();
     }
 
     private void showPicture(String id) {
@@ -126,7 +122,7 @@ public class MainListActivity extends BaseActivity implements ImageActivity.OnPh
         } else {
             mApiService = ApiClient.getClient().create(ApiInterface.class);
         }
-        Call<List<PhotoDetails>> call = mApiService.getPhotosList(appId, sCurrentPage, sCurrentSortCategory);
+        Call<List<PhotoDetails>> call = mApiService.getPhotosList(appId, sCurrentPage, 50, sCurrentSortCategory);
         call.enqueue(new Callback<List<PhotoDetails>>() {
             @Override
             public void onResponse(Call<List<PhotoDetails>> call, Response<List<PhotoDetails>> response) {
@@ -135,8 +131,7 @@ public class MainListActivity extends BaseActivity implements ImageActivity.OnPh
                     return;
                 }
                 List<PhotoDetails> list = response.body();
-                mPhotoList.addAll(list);
-                mPhotoListAdapter.notifyDataSetChanged();
+                mPhotoListAdapter.addData(list);
                 sCurrentPage++;
             }
 
@@ -155,24 +150,10 @@ public class MainListActivity extends BaseActivity implements ImageActivity.OnPh
     @Override
     public void onPhotoLiked(String id) {
         Log.d("MyTag", "Liked");
-        for (int i = 0; i < mPhotoList.size(); i++) {
-            if (mPhotoList.get(i).getId().equals(id)) {
-                mPhotoList.get(i).setLiked(true);
-                mPhotoList.get(i).setLikes(mPhotoList.get(i).getLikes() + 1);
-                mPhotoListAdapter.notifyItemChanged(i);
-            }
-        }
     }
 
     @Override
     public void onPhotoDisliked(String id) {
         Log.d("MyTag", "Disliked");
-        for (int i = 0; i < mPhotoList.size(); i++) {
-            if (mPhotoList.get(i).getId().equals(id)) {
-                mPhotoList.get(i).setLiked(false);
-                mPhotoList.get(i).setLikes(mPhotoList.get(i).getLikes() - 1);
-                mPhotoListAdapter.notifyItemChanged(i);
-            }
-        }
     }
 }
