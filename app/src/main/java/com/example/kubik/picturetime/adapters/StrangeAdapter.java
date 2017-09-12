@@ -14,15 +14,23 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Adapter which helps you to pour views while waiting for data
+ * @param <T> - data type
  * Created by roman.kubik on 9/7/17.
  */
-
 public abstract class StrangeAdapter<T> extends RecyclerView.Adapter<StrangeAdapter.StrangeHolder<T>> {
 
     protected List<T> itemList = new ArrayList<>();
+    /**
+     * Color to pour empty views
+     */
     @ColorInt
     protected int pourColor;
 
+    /**
+     * Position of empty views. Used to determine empty views.
+     * Optimization to avoid search empty items loop.
+     */
     private List<Integer> emptyPositions = new ArrayList<>();
 
     public StrangeAdapter(@ColorInt int pourColor) {
@@ -35,11 +43,17 @@ public abstract class StrangeAdapter<T> extends RecyclerView.Adapter<StrangeAdap
         return itemList.size();
     }
 
+    /**
+     * Add simple item to the end of list
+     */
     private void addEmptyItem() {
         itemList.add(null);
         emptyPositions.add(itemList.size() - 1);
     }
 
+    /**
+     * Add 6 empty views to display template while waiting for data
+     */
     private void addEmptyList() {
         itemList.add(null);
         emptyPositions.add(itemList.size() - 1);
@@ -55,6 +69,9 @@ public abstract class StrangeAdapter<T> extends RecyclerView.Adapter<StrangeAdap
         emptyPositions.add(itemList.size() - 1);
     }
 
+    /**
+     * Clear all data and add empty data
+     */
     public void clearData() {
         itemList.clear();
         emptyPositions.clear();
@@ -62,6 +79,10 @@ public abstract class StrangeAdapter<T> extends RecyclerView.Adapter<StrangeAdap
         notifyDataSetChanged();
     }
 
+    /**
+     * Add data to list. Adds empty item to last position
+     * @param data data
+     */
     public void addData(List<T> data) {
         for (int i = emptyPositions.size() - 1; i >= 0; i--) {
             itemList.remove(emptyPositions.get(i).intValue());
@@ -73,13 +94,18 @@ public abstract class StrangeAdapter<T> extends RecyclerView.Adapter<StrangeAdap
     }
 
     public static class StrangeHolder<T> extends RecyclerView.ViewHolder {
-
+        /**
+         * Constants of view types
+         */
         private static final String VALUE_IMAGE_VIEW = "image_view";
         private static final String VALUE_TEXT_VIEW = "text_view";
         private static final String VALUE_VIEW = "view";
 
         private static final String EMPTY_TEXT = "\t\t\t\t\t\t\t\t\t";
 
+        /**
+         * View type and it's @id. Used to avoid call {@instanceof} operator
+         */
         private Map<Integer, String> viewTypeIdMap = new HashMap<>();
 
         private View itemView;
@@ -104,6 +130,10 @@ public abstract class StrangeAdapter<T> extends RecyclerView.Adapter<StrangeAdap
             }
         }
 
+        /**
+         * Creates map of all view children and their ids of {@link ViewGroup}.
+         * @param viewGroup - group of views
+         */
         private void createViewIdMap(ViewGroup viewGroup) {
             for (int i = 0; i < viewGroup.getChildCount(); i++) {
                 View v = viewGroup.getChildAt(i);
@@ -119,6 +149,10 @@ public abstract class StrangeAdapter<T> extends RecyclerView.Adapter<StrangeAdap
             }
         }
 
+        /**
+         * Clear view and set pour color
+         * @param pourColor - color to display instead of content
+         */
         private void setBackgrounds(@ColorInt int pourColor) {
             for (Integer id : viewTypeIdMap.keySet()) {
                 String viewType = viewTypeIdMap.get(id);
