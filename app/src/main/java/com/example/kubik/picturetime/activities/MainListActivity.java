@@ -13,10 +13,10 @@ import android.widget.Toast;
 
 import com.example.kubik.picturetime.Navigate;
 import com.example.kubik.picturetime.R;
-import com.example.kubik.picturetime.adapters.MainPhotoListAdapter;
 import com.example.kubik.picturetime.adapters.SortBySpinnerAdapter;
 import com.example.kubik.picturetime.api.ApiClient;
 import com.example.kubik.picturetime.api.ApiInterface;
+import com.example.kubik.picturetime.kotlin.MainPhotoListAdapter;
 import com.example.kubik.picturetime.models.photos.PhotoDetails;
 import com.example.kubik.picturetime.utils.EndlessRecyclerViewScrollListener;
 
